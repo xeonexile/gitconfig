@@ -5,22 +5,21 @@ namespace ExileLab.Extensions.Configuration
 {
     public class GitConfigurationSource : IConfigurationSource
     {
-        private readonly Func<VersionedConfig> _provider;
-        private readonly TimeSpan _reloadInterval;
-        public GitConfigurationSource(Func<VersionedConfig> provider, TimeSpan reloadInterval)
+        private readonly IVersionedConfigProvider _provider;
+
+        public GitConfigurationSource(IVersionedConfigProvider provider)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-            _reloadInterval = reloadInterval;
         }
-        public Microsoft.Extensions.Configuration.IConfigurationProvider Build(IConfigurationBuilder builder) =>
-            new GitConfigurationProvider(_provider, _reloadInterval);
+        public IConfigurationProvider Build(IConfigurationBuilder builder) =>
+            new GitConfigurationProvider(_provider);
     }
 
     public static class ConfigurationExtensions
     {
-        public static IConfigurationBuilder AddGitProvider(this IConfigurationBuilder configuration, Func<VersionedConfig> provider, TimeSpan reloadInterval)
+        public static IConfigurationBuilder AddGitProvider(this IConfigurationBuilder configuration, IVersionedConfigProvider provider)
         {
-            configuration.Add(new GitConfigurationSource(provider, reloadInterval));
+            configuration.Add(new GitConfigurationSource(provider));
             return configuration;
         }
     }

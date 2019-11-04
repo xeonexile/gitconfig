@@ -7,22 +7,17 @@ namespace ExileLab.Extensions.Configuration
 {
     public class GitConfigurationProvider : ConfigurationProvider
     {
-        private readonly Func<VersionedConfig> _provider;
+        private readonly IVersionedConfigProvider _provider;
 
-        public GitConfigurationProvider(Func<VersionedConfig> provider, TimeSpan reloadInterval)
+        public GitConfigurationProvider(IVersionedConfigProvider provider)
         {
-            _provider = provider;
-            _ = new System.Threading.Timer(_ => Reload(), null, reloadInterval, reloadInterval);
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            _ = new System.Threading.Timer(_ => Load(), null, provider.ReloadInterval, provider.ReloadInterval);
         }
 
         public override void Load()
         {
-            Reload();
-        }
-
-        private void Reload()
-        {
-            var content = _provider().Config;
+            var content = _provider.GetConfig().Config;
             if (string.IsNullOrEmpty(content.Content))
                 return;
 

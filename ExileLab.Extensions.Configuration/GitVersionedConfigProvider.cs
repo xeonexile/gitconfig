@@ -20,13 +20,33 @@ namespace ExileLab.Extensions.Configuration
             _invalidTtl = invalidTtl;
 
             _gitQuery = new GitQuery(repository, path, branch);
-            _current = TimedEntry.Create((VersionedConfig)VersionConfig.Fail(new InvalidOperationException()), TimeSpan.Zero);
+            _current = TimedEntry.Create(VersionConfig.Fail(new InvalidOperationException()), TimeSpan.Zero);
         }
 
+        /// <summary>
+        /// Creates new git provider
+        /// </summary>
+        /// <param name="git"></param>
+        /// <param name="repository">ProjectId for gitlab
+        /// username/repository for github </param>
+        /// <param name="path">path to a json config file</param>
         public GitVersionedConfigProvider(IGitApi git, string repository, string path, string branch = "master")
             : this(git, repository, path, branch, TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(1))
         { }
 
+        public static IVersionedConfigProvider CreateGitLab(string host, string token, string repository, string path, string branch, TimeSpan reloadInterval, TimeSpan invalidInterval) =>
+            new GitVersionedConfigProvider(new GitLab.GitLabApi(GitLab.GitLabApi.CreateHttp(host, token)), repository, path, branch, reloadInterval, invalidInterval);
+
+        public static IVersionedConfigProvider CreateGitHub(string host, string token, string repository, string path, string branch, TimeSpan reloadInterval, TimeSpan invalidInterval) =>
+            new GitVersionedConfigProvider(new GitHub.GitHubApi(GitHub.GitHubApi.CreateHttp(host, token)), repository, path, branch, reloadInterval, invalidInterval);
+
+        public static IVersionedConfigProvider Create(string host, string token, string repository, string path, string branch, TimeSpan reloadInterval, TimeSpan invalidInterval) =>
+            host == "https://api.github.com"
+            ? CreateGitHub(host, token, repository, path, branch, reloadInterval, invalidInterval)
+            : CreateGitLab(host, token, repository, path, branch, reloadInterval, invalidInterval);
+
+
+        public TimeSpan ReloadInterval => _ttl;
 
         public VersionedConfig GetConfig()
         {

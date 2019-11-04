@@ -24,5 +24,16 @@ namespace ExileLab.Extensions.Configuration.GitLab
 
             return new GitItem(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(entry.Content)), entry.ContentSha256);
         }
+
+        public static HttpClient CreateHttp(string host, string token)
+        {
+            var http = new HttpClient()
+            {
+                BaseAddress = new Uri(host)
+            };
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            http.DefaultRequestHeaders.Add("User-Agent", "ExileLab");
+            return http;
+        }
     }
 }
