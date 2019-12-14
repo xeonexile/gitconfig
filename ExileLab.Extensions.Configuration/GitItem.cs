@@ -18,7 +18,7 @@ namespace ExileLab.Extensions.Configuration
     public class GitQuery
     {
         /// <summary>
-        /// Could be githib username/repository or gitlab ProjectId
+        /// Could be github username/repository or gitlab ProjectId
         /// </summary>
         public string Repository { get; set; }
         public string Path { get; set; }

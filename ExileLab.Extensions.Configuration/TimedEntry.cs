@@ -2,7 +2,7 @@
 
 namespace ExileLab.Extensions.Configuration
 {
-    public class TimedEntry<T>
+    internal class TimedEntry<T>
     {
         public T Value { get; }
         public DateTimeOffset ExpireAt { get; }
@@ -16,7 +16,7 @@ namespace ExileLab.Extensions.Configuration
         }
     }
 
-    public static class TimedEntry
+    internal static class TimedEntry
     {
         public static TimedEntry<T> Create<T>(T v, TimeSpan ttl) =>
             new TimedEntry<T>(v, DateTimeOffset.UtcNow.Add(ttl));

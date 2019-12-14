@@ -42,8 +42,8 @@ namespace ExileLab.Extensions.Configuration
 
         public static IVersionedConfigProvider Create(string host, string token, string repository, string path, string branch, TimeSpan reloadInterval, TimeSpan invalidInterval) =>
             host == "https://api.github.com"
-            ? CreateGitHub(host, token, repository, path, branch, reloadInterval, invalidInterval)
-            : CreateGitLab(host, token, repository, path, branch, reloadInterval, invalidInterval);
+                ? CreateGitHub(host, token, repository, path, branch, reloadInterval, invalidInterval)
+                : CreateGitLab(host, token, repository, path, branch, reloadInterval, invalidInterval);
 
 
         public TimeSpan ReloadInterval => _ttl;

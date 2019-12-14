@@ -1,7 +1,7 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using ExileLab.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace ExileLab.SampleWebApi
 {
@@ -14,13 +14,9 @@ namespace ExileLab.SampleWebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration(config =>
+            .ConfigureAppConfiguration( (hostContext, config) =>
             {
-                config.AddGitProvider(GitVersionedConfigProvider.Create("https://api.github.com",
-                    "9030bc330e4bab95d391ed3423603a336e0acefa", 
-                    "xeonexile/gitconfig", 
-                    "config/appsettings.json", 
-                    "master", TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(1)));
+                config.TryAddGitProvider(hostContext.Configuration.GetSection("Git").Get<GitConfigOptions>());
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
