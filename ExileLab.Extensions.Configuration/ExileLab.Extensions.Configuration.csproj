@@ -6,6 +6,7 @@
     <PackageProjectUrl>https://github.com/xeonexile/gitconfig</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xeonexile/gitconfig</RepositoryUrl>
     <Description>Git configuration source for netcore apps</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
