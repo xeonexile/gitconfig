@@ -8,6 +8,7 @@ namespace ExileLab.Extensions.Configuration.Tests
     public class GitHubApiTests
     {
         [Fact]
+        [Trait("Category", "integration")]
         public async void GetFileTest()
         {
             var http = new HttpClient()
