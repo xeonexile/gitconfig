@@ -1,7 +1,7 @@
 # gitconfig
+``` code
 Add git based configuration source into netcore configuration pipeline
-
-dotnet add package ExileLab.Extensions.Configuration --version 1.0.0-rc1
+```
 
 ```csharp
 public static IHostBuilder CreateHostBuilder(string[] args) =>
