@@ -1,5 +1,7 @@
 # gitconfig
+``` code
 Add git based configuration source into netcore configuration pipeline
+```
 
 ```csharp
 public static IHostBuilder CreateHostBuilder(string[] args) =>
