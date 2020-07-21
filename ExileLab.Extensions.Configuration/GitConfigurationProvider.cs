@@ -17,6 +17,7 @@ namespace ExileLab.Extensions.Configuration
 
         public override void Load()
         {
+            var hash = _provider.GetCurrentHash;
             var content = _provider.GetConfig().Config;
             if (string.IsNullOrEmpty(content.Content))
                 return;
@@ -24,6 +25,11 @@ namespace ExileLab.Extensions.Configuration
             using (var sr = new MemoryStream(Encoding.UTF8.GetBytes(content.Content)))
             {
                 Data = Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(sr);
+            }
+            
+            if (!string.Equals(hash,content.Hash))
+            {
+                OnReload();   
             }
         }
     }

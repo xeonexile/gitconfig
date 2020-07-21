@@ -6,7 +6,7 @@ namespace ExileLab.Extensions.Configuration
     public class GitVersionedConfigProvider : IVersionedConfigProvider
     {
         private TimedEntry<VersionedConfig> _current;
-        private volatile int _loading = 0;
+        private volatile int _loading;
 
         private readonly IGitApi _git;
         private readonly GitQuery _gitQuery;
@@ -45,7 +45,7 @@ namespace ExileLab.Extensions.Configuration
                 ? CreateGitHub(host, token, repository, path, branch, reloadInterval, invalidInterval)
                 : CreateGitLab(host, token, repository, path, branch, reloadInterval, invalidInterval);
 
-
+        public string GetCurrentHash => _current.Value.Hash;
         public TimeSpan ReloadInterval => _ttl;
 
         public VersionedConfig GetConfig()
