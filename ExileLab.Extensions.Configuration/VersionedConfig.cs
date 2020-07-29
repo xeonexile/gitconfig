@@ -14,7 +14,7 @@ namespace ExileLab.Extensions.Configuration
             LoadedAt = DateTime.UtcNow;
             Config = config;
             LastError = error;
-            Hash = config.Hash;
+            Hash = config?.Hash;
         }
     }
 
